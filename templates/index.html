@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHR Agent - 电子病历辅助系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏥 EHR Agent - 电子病历辅助系统</h1>
+            <p class="subtitle">智能问诊记录与病历生成系统</p>
+        </header>
+
+        <!-- 患者信息表单 -->
+        <section class="card" id="patient-info-section">
+            <h2>📋 患者基本信息</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>患者姓名</label>
+                    <input type="text" id="patient-name" placeholder="请输入患者姓名">
+                </div>
+                <div class="form-group">
+                    <label>年龄</label>
+                    <input type="text" id="patient-age" placeholder="请输入年龄">
+                </div>
+                <div class="form-group">
+                    <label>性别</label>
+                    <select id="patient-gender">
+                        <option value="未提供">请选择</option>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>既往史</label>
+                    <input type="text" id="patient-history" placeholder="请输入既往史，无则填'无'">
+                </div>
+                <div class="form-group">
+                    <label>过敏史</label>
+                    <input type="text" id="patient-allergies" placeholder="请输入过敏史，无则填'无'">
+                </div>
+                <div class="form-group">
+                    <label>当前用药</label>
+                    <input type="text" id="patient-medications" placeholder="请输入当前用药，用逗号分隔，无则填'无'">
+                </div>
+            </div>
+        </section>
+
+        <!-- 问诊记录 -->
+        <section class="card" id="consultation-section">
+            <h2>🎤 问诊记录</h2>
+            <div class="recording-controls">
+                <button id="start-recording" class="btn btn-primary">
+                    <span class="icon">🎤</span> 开始录音
+                </button>
+                <button id="stop-recording" class="btn btn-danger" disabled>
+                    <span class="icon">⏹</span> 停止录音
+                </button>
+                <button id="clear-text" class="btn btn-secondary">
+                    <span class="icon">🗑</span> 清空
+                </button>
+            </div>
+            <div id="recording-status" class="status-message"></div>
+            <textarea id="consultation-text" rows="8" placeholder="点击'开始录音'进行语音输入，或直接在此输入问诊记录..."></textarea>
+            <div class="char-count">字数: <span id="char-count">0</span></div>
+        </section>
+
+        <!-- 操作按钮 -->
+        <section class="card">
+            <div class="action-buttons">
+                <button id="generate-soap" class="btn btn-success" disabled>
+                    <span class="icon">📝</span> 生成 SOAP 病历
+                </button>
+                <button id="recommend-exams" class="btn btn-info" disabled>
+                    <span class="icon">🔬</span> 推荐检查项目
+                </button>
+                <button id="check-drugs" class="btn btn-warning" disabled>
+                    <span class="icon">💊</span> 检查药物冲突
+                </button>
+                <button id="save-report" class="btn btn-primary" disabled>
+                    <span class="icon">💾</span> 保存报告
+                </button>
+            </div>
+        </section>
+
+        <!-- 加载提示 -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>处理中，请稍候...</p>
+        </div>
+
+        <!-- 结果显示区域 -->
+        <section class="card hidden" id="soap-section">
+            <h2>📋 SOAP 病历</h2>
+            <div id="soap-content" class="result-content"></div>
+        </section>
+
+        <section class="card hidden" id="examinations-section">
+            <h2>🔬 推荐检查项目</h2>
+            <div id="examinations-content" class="result-content"></div>
+        </section>
+
+        <section class="card hidden" id="drug-check-section">
+            <h2>💊 药物冲突检查</h2>
+            <div id="drug-check-content" class="result-content"></div>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
+
